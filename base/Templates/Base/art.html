@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arte de Texto</title>
+    <style>
+        .input-container {
+            width: 60%;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        #arte-gerada {
+            white-space: pre; 
+            line-height: 0.6;
+            padding: 0;
+            margin: 0; 
+        }
+        button {
+            width: auto; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerador de Arte de Texto</h1>
+    <div class="input-container">
+        <form method="get">
+            <textarea name="frase" placeholder="Digite a frase" required></textarea>
+            <button type="submit">Gerar Arte</button>
+        </form>
+    </div>
+    <h2>Arte Gerada:</h2>
+    <div class="input-container"> <!-- Adicionado contêiner para a arte gerada -->
+        {% if arte %}
+            <textarea id="arte-gerada" readonly>
+            {% for linha in arte %}
+            {{ linha }}
+            {% endfor %}
+            </textarea>
+            <button onclick="copiarArte()">Copiar Arte</button>
+        {% else %}
+            <textarea readonly placeholder="Digite uma frase e clique em 'Gerar Arte'"></textarea>
+        {% endif %}
+    </div>
+    <script>
+        function copiarArte() {
+            const arteGerada = document.getElementById('arte-gerada').value
+                .replace(/\n\s*\n/g, '\n')
+                .trim(); 
+            const textarea = document.createElement('textarea');
+            textarea.value = arteGerada;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Arte copiada para a área de transferência!');
+        }
+    </script>
+</body>
+</html>
